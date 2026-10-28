@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0b0d1c">
+  <meta name="description" content="Sand Mania V3: arena mezclada y niveles cada vez más difíciles; conectá grandes grupos de arena del mismo color para limpiar el tablero. Un juego de Arcade-AR.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sand Mania">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <title>Sand Mania V3 · Arena Mezclada · Arcade-AR</title>
+  <style>
+    :root{color-scheme:dark;--bg:#090b17;--card:#171a30;--line:#323754;--text:#f8f8ff;--muted:#9299b8;--lime:#c7f879;--pink:#ff6d9d;--violet:#9f8fff;--cyan:#63e5e4;--orange:#ffbb69}
+    *{box-sizing:border-box}html,body{padding:0;margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+    body{overflow-x:hidden;background:radial-gradient(ellipse 500px 370px at 3% 20%,#1f24505c,transparent),radial-gradient(ellipse 650px 420px at 105% 70%,#421c4650,transparent),#090b17}
+    button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+    button:disabled{opacity:.4;cursor:not-allowed}
+    .app{width:min(100% - 30px,1080px);margin:auto;padding:17px 0 25px;min-height:100dvh}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1000px;margin:0 auto 19px}
+    .brand{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:950;letter-spacing:2.5px;color:#c6cee8}
+    .brand-symbol{height:32px;width:32px;border:1px solid #ffffff22;background:linear-gradient(150deg,#323754,#16192f);border-radius:11px;display:grid;place-items:center;color:#c9fa80;font-weight:1000;font-size:16px;letter-spacing:0;box-shadow:0 5px 18px #0004}
+    .status{color:#c7f879;font-weight:850;font-size:10px;letter-spacing:1.2px;border:1px solid #c7f87948;padding:8px 11px;border-radius:30px;background:#c7f8790b}
+    .title-block{text-align:center;margin:0 0 18px}
+    h1{margin:0;font-size:clamp(31px,4.1vw,52px);line-height:1.08;letter-spacing:-2.1px;font-weight:1000;text-shadow:0 4px 26px #0005}
+    h1 span{background:linear-gradient(110deg,var(--pink) 4%,var(--orange) 40%,var(--lime) 82%);color:transparent;background-clip:text;-webkit-background-clip:text}
+    .subtitle{margin:8px 0 0;color:#9fa5c4;font-size:13px;font-weight:550}
+    .layout{display:grid;grid-template-columns:minmax(168px,1fr) auto minmax(168px,1fr);align-items:center;gap:20px;max-width:1000px;margin:auto}
+    .sidebar{display:flex;flex-direction:column;gap:13px;align-self:center}
+    .panel{border:1px solid #3d416522;background:linear-gradient(160deg,#20243a 0%,#141729 100%);border-radius:19px;padding:16px 18px;box-shadow:0 9px 28px #0001}
+    .eyebrow{font-size:11px;letter-spacing:1.35px;font-weight:900;color:#a5aecc;text-transform:uppercase}
+    .number{font-size:30px;line-height:1.12;font-weight:950;letter-spacing:-1.2px;margin-top:7px;font-variant-numeric:tabular-nums}
+    .number.lime{color:var(--lime)}.number.pink{color:var(--pink)}.number.cyan{color:var(--cyan)}
+    .smallnote{font-size:11px;color:#7f88a7;margin-top:6px}
+    .left-panel{position:relative;overflow:hidden}.left-panel:before{content:"";position:absolute;width:90px;height:90px;right:-44px;top:-44px;background:#e77bd620;filter:blur(23px);border-radius:50%}
+    .combo-visual{height:8px;background:#272b44;border-radius:15px;margin-top:14px;overflow:hidden}.combo-visual>div{width:0;height:100%;background:linear-gradient(90deg,var(--pink),var(--orange),var(--lime));transition:width .35s;border-radius:20px}
+    .keycaps{display:flex;gap:7px;align-items:center;margin:10px 0 0}.keycaps kbd{border:1px solid #464c70;border-bottom-width:3px;background:#20243e;padding:5px 9px;border-radius:7px;font-size:11px;color:#e6e8fb;font-family:inherit;font-weight:850}
+    .tips{color:#a5abc8;font-size:12px;line-height:1.7;margin:10px 0 0}.tips strong{color:#e8edff}
+    .play-area{display:flex;flex-direction:column;align-items:center;gap:11px;min-width:0}
+    .board-frame{position:relative;width:min(100%,414px,calc((100dvh - 245px) * .6666667));max-width:414px;aspect-ratio:2/3;border:2px solid #454c72;border-radius:17px;overflow:hidden;background:#0e1224;box-shadow:0 0 0 5px #c5cfff08,0 20px 70px #0009,0 0 70px #6b4bc321;touch-action:none;user-select:none;-webkit-user-select:none}
+    #game{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+    .canvas-top-tag{position:absolute;top:11px;left:13px;pointer-events:none;z-index:2;font-size:9px;font-weight:950;letter-spacing:1.4px;color:#a6b5d1bb}
+    .edge{position:absolute;top:0;bottom:0;width:3px;pointer-events:none;z-index:2;opacity:.7}.edge.left{left:0;background:linear-gradient(180deg,transparent 5%,#f9df7077 55%,#f9df70cc)}.edge.right{right:0;background:linear-gradient(180deg,transparent 5%,#f9df7077 55%,#f9df70cc)}
+    .overlay{position:absolute;inset:0;background:#080c1dba;display:none;justify-content:center;align-items:center;flex-direction:column;text-align:center;z-index:5;padding:19px;backdrop-filter:blur(6px)}.overlay.visible{display:flex}
+    .overlay-emoji{font-size:43px;margin-bottom:10px;filter:drop-shadow(0 6px 12px #0006)}.overlay h2{font-size:28px;margin:0 0 6px;letter-spacing:-1px}.overlay p{font-size:13px;color:#b4bed5;line-height:1.55;margin:0 0 17px;max-width:250px}
+    .overlay .highlight{font-weight:950;font-size:33px;color:var(--lime);margin:5px 0 18px}
+    .action{border:0;border-radius:13px;background:linear-gradient(120deg,#c9fa86,#9ae68e);color:#15211b;font-size:13px;font-weight:950;padding:12px 20px;box-shadow:0 8px 30px #b5ef7030}.action:active{transform:translateY(1px)}
+    .controls{display:flex;gap:9px;justify-content:center;width:100%;max-width:414px}.ctl{height:47px;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #414765;background:#1e2239;color:#e8eafe;border-radius:13px;touch-action:manipulation;flex:1;font-size:16px;font-weight:850;box-shadow:0 4px 10px #0002}.ctl:active{background:#303651;transform:translateY(1px)}.ctl.drop{background:var(--lime);color:#142219;border-color:#d4ff9d;flex:1.75;font-size:13px;letter-spacing:.15px}.ctl.drop:active{background:#9ad26e}
+    .challenge{width:min(100%,414px);border:1px solid #3d486b;background:linear-gradient(135deg,#242943,#15192e);padding:10px 13px 9px;border-radius:14px;display:flex;flex-direction:column;gap:7px;box-shadow:0 7px 22px #0002}
+    .challenge-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;font-weight:850}
+    .challenge-head strong{color:var(--lime);font-size:13px;font-variant-numeric:tabular-nums}
+    .challenge-track{height:8px;background:#0d1121;border:1px solid #ffffff12;border-radius:50px;overflow:hidden}
+    .challenge-track>i{display:block;background:linear-gradient(90deg,#ff769b,#ffb66d,#b4f37c);width:0%;height:100%;transition:width .26s}
+    .challenge-sub{color:#9ea8c7;font-size:10px;font-weight:650}
+    .help-mini{font-size:10px;color:#8991af;text-align:center;line-height:1.4}
+    .next-box{text-align:center;background:#0d1021;border:1px dashed #3a4364;border-radius:15px;margin-top:10px;padding:12px 4px 8px}
+    #next{height:90px;width:144px;max-width:100%;display:block;margin:auto}
+    .rainbow-dots{display:flex;gap:5px;margin-top:12px;justify-content:center}.rainbow-dots i{height:7px;width:7px;border-radius:50%;display:block}
+    .explain{border:1px solid #2a3850;background:linear-gradient(155deg,#141d2a,#12192b);padding:15px;border-radius:17px}
+    .explain-title{color:var(--lime);font-weight:900;font-size:12px}.explain p{font-size:12px;color:#aab2c8;line-height:1.55;margin:8px 0 0}
+    .right-icons{display:flex;gap:8px;justify-content:flex-end;margin-bottom:3px}.icon-btn{border:1px solid #343955;background:#191e33;border-radius:10px;padding:9px;width:38px;height:38px;display:grid;place-items:center;color:#d5dcf3}.icon-btn:hover{background:#292e48}
+    .mobile-row{display:none}
+    .footer{color:#5f6b8a;text-align:center;margin-top:18px;font-size:10px;letter-spacing:.9px;font-weight:750}
+    @media(max-width:770px){
+      .app{width:min(100% - 22px,530px);padding:10px 0 16px}.topbar{margin-bottom:6px}.title-block{margin-bottom:9px}.subtitle{font-size:11px;margin-top:4px}
+      .layout{grid-template-columns:1fr;gap:8px}.sidebar{display:none}.mobile-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:2px}.mobile-stat{background:#1a1e33;border:1px solid #292e4b;border-radius:11px;text-align:center;padding:8px 4px}.mobile-stat .eyebrow{font-size:9px;letter-spacing:.8px}.mobile-stat .number{font-size:19px;margin-top:2px}.play-area{gap:8px}
+      .board-frame{width:min(100%,414px,calc((100dvh - 299px) * .6666667));min-width:185px;border-radius:14px}
+      .controls{max-width:min(100%,414px)}.ctl{height:43px}.right-icons{display:flex;position:absolute;right:12px;top:14px;z-index:3;margin:0}.icon-btn{width:31px;height:31px;padding:6px;font-size:12px}.topbar{max-width:100%}
+      .footer{margin-top:9px}.help-mini{font-size:9px}
+    }
+    @media(max-height:675px) and (max-width:770px){.app{padding-top:5px}.topbar{margin-bottom:4px}.title-block{margin-bottom:5px}h1{font-size:29px}.subtitle{display:none}.mobile-stat{padding:5px}.board-frame{width:min(100%,400px,calc((100dvh - 236px) * .6666667))}.controls .ctl{height:38px}.footer{display:none}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-symbol">A<span style="color:#ff86a8">.</span></div> ARCADE-AR <span style="color:#5c6487;margin-left:3px">/ 02 · V3</span></div>
+    <span class="status">● DEMO JUGABLE</span>
+  </header>
+  <div class="title-block"><h1>SAND <span>MANIA</span></h1><p class="subtitle">La arena empieza mezclada: conectá grupos grandes para despejarla.</p></div>
+  <div class="mobile-row" aria-label="Estadísticas de partida">
+    <div class="mobile-stat"><div class="eyebrow">Puntos</div><div id="mobileScore" class="number lime">0</div></div>
+    <div class="mobile-stat"><div class="eyebrow">Récord</div><div id="mobileBest" class="number">0</div></div>
+    <div class="mobile-stat"><div class="eyebrow">Nivel</div><div id="mobileLevel" class="number pink">1</div></div>
+  </div>
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="panel left-panel"><div class="eyebrow">Tu puntuación</div><div class="number lime" id="score">0</div><div class="smallnote">Cada conexión suma puntos</div><div class="combo-visual"><div id="comboBar"></div></div></div>
+      <div class="panel"><div class="eyebrow">Mejor récord</div><div class="number" id="best">0</div><div class="smallnote">Se guarda en este dispositivo</div></div>
+      <div class="panel"><div class="eyebrow">Nivel</div><div class="number pink" id="level">01</div><div class="smallnote">Mezcla más difícil en cada nivel</div></div>
+      <div class="explain"><div class="explain-title">✦ ¿Cómo se gana?</div><p>Empezás con <strong>medio tablero mezclado</strong>. Armá grupos grandes de arena del mismo color: las conexiones pequeñas no se borran. Despejá el <strong>80% de la arena inicial</strong> y pasá a un nivel más difícil.</p></div>
+    </aside>
+    <div class="play-area">
+      <div class="challenge" aria-label="Objetivo de limpieza">
+        <div class="challenge-head"><span>DESPEJÁ EL NIVEL <span id="zoneNum">1</span></span><strong id="cleanPercent">0% / 80%</strong></div>
+        <div class="challenge-track"><i id="cleanMeter"></i></div>
+        <div class="challenge-sub" id="cleanSub">Eliminá la arena de colores que ya ocupa el tablero.</div>
+      </div>
+      <div class="board-frame" id="boardFrame">
+        <canvas id="game" width="320" height="480" aria-label="Tablero de Sand Mania. Tocá para soltar las piezas."></canvas>
+        <div class="canvas-top-tag">ZONA DE CAÍDA</div><div class="edge left"></div><div class="edge right"></div>
+        <div class="right-icons"><button class="icon-btn" id="soundBtn" title="Activar o desactivar sonido" aria-label="Activar o desactivar sonido">♪</button><button class="icon-btn" id="pauseBtn" title="Pausar" aria-label="Pausar">Ⅱ</button><button class="icon-btn" id="helpBtn" title="Instrucciones" aria-label="Instrucciones">?</button></div>
+        <div class="overlay" id="overlay">
+          <div class="overlay-emoji" id="overlayEmoji">✨</div><h2 id="overlayTitle">Sand Mania</h2><p id="overlayText">¡Conectá los colores!</p>
+          <div class="highlight" id="overlayValue" hidden></div>
+          <button class="action" id="overlayAction">¡Seguir jugando!</button>
+        </div>
+      </div>
+      <div class="controls" aria-label="Controles de juego"><button id="leftBtn" class="ctl" aria-label="Mover izquierda">◀</button><button id="rotateBtn" class="ctl" aria-label="Girar pieza">↻</button><button id="dropBtn" class="ctl drop">↓ SOLTAR</button><button id="rightBtn" class="ctl" aria-label="Mover derecha">▶</button></div>
+      <div class="help-mini">Despejá el 80% de la arena inicial · Tocá o arrastrá para apuntar</div>
+    </div>
+    <aside class="sidebar">
+      <div class="panel" style="position:relative"><div class="eyebrow">Siguiente pieza</div><div class="next-box"><canvas id="next" width="144" height="90"></canvas></div><div class="rainbow-dots"><i style="background:#fd7799"></i><i style="background:#5bdddf"></i><i style="background:#f4bc67"></i><i style="background:#a991ff"></i><i style="background:#bdf27f"></i></div></div>
+      <div class="panel"><div class="eyebrow">Cadena actual</div><div class="number cyan" id="chain">x1</div><div class="smallnote">Más combos, más puntos</div></div>
+      <div class="panel"><div class="eyebrow">Teclas en PC</div><div class="keycaps"><kbd>←</kbd><kbd>→</kbd> mover</div><div class="keycaps"><kbd>↑</kbd> girar</div><div class="keycaps"><kbd>ESP</kbd> soltar</div></div>
+    </aside>
+  </main>
+  <footer class="footer">ARCADE-AR ORIGINALS <span style="color:#fc7da6">✦</span> SAND MANIA V3 · NIVELES DESAFIANTES</footer>
+</div>
+<script>
+(()=>{'use strict';
+  const CW=320,CH=480,S=4,COLS=CW/S,ROWS=CH/S,BLOCK=20,BC=BLOCK/S;
+  const canvas=document.getElementById('game'),ctx=canvas.getContext('2d',{alpha:false});
+  const nextCanvas=document.getElementById('next'),nx=nextCanvas.getContext('2d');
+  const COLORS=[{name:'rosa',c:'#ff749f',deep:'#e85387',light:'#ffb5c9'},{name:'turquesa',c:'#55e2e0',deep:'#24c5c2',light:'#b2faf4'},{name:'durazno',c:'#ffbc67',deep:'#f09448',light:'#ffe0aa'},{name:'lila',c:'#ad92ff',deep:'#8f72e8',light:'#d1c5ff'},{name:'lima',c:'#c0f37e',deep:'#95d94c',light:'#e3ffc1'}];
+  // Pieza formada por cuatro bloques. Cada bloque se transforma en 25 granitos.
+  const SHAPES=[[[0,0],[1,0],[2,0],[3,0]],[[0,0],[1,0],[0,1],[1,1]],[[0,0],[1,0],[2,0],[1,1]],[[0,0],[0,1],[1,1],[2,1]],[[2,0],[0,1],[1,1],[2,1]],[[1,0],[2,0],[0,1],[1,1]],[[0,0],[1,0],[1,1],[2,1]]];
+  const $=id=>document.getElementById(id);
+  const grid=new Int8Array(COLS*ROWS);
+  const visited=new Uint8Array(grid.length);
+  // Identificamos cada grano inicial, incluso cuando cae por gravedad.
+  const starter=new Uint8Array(grid.length);
+  const playerSand=new Uint8Array(grid.length);
+  const CLEAR_GOAL=.80;
+  // Las conexiones pequeñas ya NO desaparecen. Los dos requisitos progresan por nivel.
+  const minGroupForStage=()=>Math.min(600,340+(stage-1)*55);
+  const minWidthForStage=()=>Math.min(32,18+(stage-1)*3);
+  const mixForStage=()=>Math.max(.34,Math.min(.82,.34+(stage-1)*.10));
+  const mixLabel=()=>stage===1?'MEDIA':stage===2?'ALTA':stage===3?'INTENSA':'EXTREMA';
+  let initialCount=0,starterRemaining=0,stage=1,zoneCompleted=false;
+  let piece=null,nextPiece=null,particles=[],floating=[],score=0,level=1,best=0,chain=0,piecesPlaced=0,gameOver=false,paused=false,showingHelp=false,clearCooldown=0,gravityAcc=0,fallAcc=0,clock=0,acc=0,last=0,screenShake=0;
+  let audioEnabled=false,audioCtx=null,connectionTicker=0,lastClearPiece=0;
+  const STORE='arcadear-sand-mania-v1-best'; // Conservamos el récord de la V1.
+  try{best=Number(localStorage.getItem(STORE)||0)||0}catch(e){}
+  const rnd=()=>Math.random();
+  const idx=(x,y)=>y*COLS+x;
+  const randInt=n=>Math.floor(Math.random()*n);
+  const normCells=c=>{const minX=Math.min(...c.map(p=>p[0])),minY=Math.min(...c.map(p=>p[1]));return c.map(([x,y])=>[x-minX,y-minY]);};
+  const mkPiece=(preferredColor)=>({cells:SHAPES[randInt(SHAPES.length)].map(p=>p.slice()),color:preferredColor??randInt(COLORS.length),x:7,y:-2.5});
+  function sizeOf(p){return{w:Math.max(...p.cells.map(q=>q[0]))+1,h:Math.max(...p.cells.map(q=>q[1]))+1};}
+  function clamped(p){const {w}=sizeOf(p);p.x=Math.max(0,Math.min(16-w,Math.round(p.x)));}
+  function spawn(){piece=nextPiece||mkPiece(surfaceColor());
+    // Mayor probabilidad del color visible en la superficie: el jugador puede planear.
+    nextPiece=mkPiece(rnd()<.70?surfaceColor():randInt(COLORS.length));piece.x=Math.round((16-sizeOf(piece).w)/2);piece.y=-sizeOf(piece).h-.1;clamped(piece);renderNext();
+    if(collision(piece,piece.x,0)){endGame();}
+  }
+  function countsByColor(){const arr=new Int32Array(COLORS.length);for(let i=0;i<grid.length;i++)if(grid[i])arr[grid[i]-1]++;return arr;}
+  function canOccupy(p,x,y){for(const [dx,dy] of p.cells){const bx=(x+dx)*BC,by=Math.floor((y+dy)*BC);
+      for(let px=0;px<BC;px++)for(let py=0;py<BC;py++){const gy=by+py,gx=bx+px;if(gx<0||gx>=COLS||gy>=ROWS)return false;if(gy>=0&&grid[idx(gx,gy)])return false;}}
+    return true;}
+  function collision(p,x,y){return !canOccupy(p,x,y)}
+  function movePiece(dx){if(!piece||paused||gameOver||showingHelp)return;const nx=piece.x+dx;if(!collision(piece,nx,piece.y))piece.x=nx;}
+  function rotatePiece(){if(!piece||paused||gameOver||showingHelp)return;let c=normCells(piece.cells.map(([x,y])=>[-y,x]));let test={...piece,cells:c};clamped(test);
+    for(const shift of [0,-1,1,-2,2]){if(!collision(test,test.x+shift,test.y)){piece.cells=c;piece.x=test.x+shift;beep(430,.037,'sine',.025);return;}}
+  }
+  function dropPiece(){if(!piece||paused||gameOver||showingHelp||clearCooldown>.01)return;let loops=0;while(loops++<150 && !collision(piece,piece.x,piece.y+0.4))piece.y+=0.4;settlePiece();}
+  function settlePiece(){if(!piece)return;const col=piece.color+1;let placed=0;for(const [dx,dy] of piece.cells){const bx=(piece.x+dx)*BC,by=Math.floor((piece.y+dy)*BC);
+      for(let j=0;j<BC;j++)for(let i=0;i<BC;i++){let gy=by+j,gx=bx+i;if(gy>=0&&gy<ROWS&&gx>=0&&gx<COLS&&!grid[idx(gx,gy)]){grid[idx(gx,gy)]=col;playerSand[idx(gx,gy)]=1;placed++;}}}
+    for(let i=0;i<15;i++)particles.push({x:(piece.x+randInt(sizeOf(piece).w))*BLOCK,y:(piece.y+randInt(sizeOf(piece).h))*BLOCK,vx:(rnd()-.5)*90,vy:-rnd()*85,life:.35+rnd()*.2,color:COLORS[piece.color].c,sz:2+rnd()*3});
+    if(particles.length>650)particles.splice(0,particles.length-650);
+    piecesPlaced++;if(piecesPlaced-lastClearPiece>1)chain=0;level=stage;piece=null;fallAcc=0;clearCooldown=.33;connectionTicker=.35;playLandSound();updateUI();spawn();
+  }
+  // Mosaico de bolsones orgánicos de arena, NO capas. Varias áreas vecinas
+  // pueden tener el mismo color y formar una conexión extensa.
+  // Cada nivel reduce el tamaño de los bolsones y añade interferencias.
+  function hash2(x,y,seed){let h=Math.imul(x,374761393)^Math.imul(y,668265263)^Math.imul(seed,1442695041);h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296;}
+  function smoothNoise(x,y,size,seed){const tx=x/size,ty=y/size,ix=Math.floor(tx),iy=Math.floor(ty);let fx=tx-ix,fy=ty-iy;fx=fx*fx*(3-2*fx);fy=fy*fy*(3-2*fy);const a=hash2(ix,iy,seed),b=hash2(ix+1,iy,seed),c=hash2(ix,iy+1,seed),d=hash2(ix+1,iy+1,seed);return(a+(b-a)*fx)*(1-fy)+(c+(d-c)*fx)*fy;}
+  function seedHalfBoard(){
+    grid.fill(0);starter.fill(0);playerSand.fill(0);initialCount=0;
+    const szX=Math.max(15,25-Math.min(8,stage-1)*1.4),szY=Math.max(12,19-Math.min(8,stage-1));
+    const seed=stage*11+103;
+    for(let x=0;x<COLS;x++){
+      const surface=59+Math.round(3*Math.sin(x*.16+stage*.75)+2*Math.sin(x*.34+1));
+      for(let y=surface;y<ROWS;y++){
+        // El desplazamiento de dominio rompe la cuadrícula y genera bordes sinuosos.
+        const wx=x+(smoothNoise(x,y,16,seed+7)-.5)*13;
+        const wy=y+(smoothNoise(x+41,y,15,seed+8)-.5)*11;
+        const gx=Math.floor(wx/szX),gy=Math.floor((wy-59)/szY);
+        let closest=Infinity,col=0;
+        for(let oy=-1;oy<=1;oy++)for(let ox=-1;ox<=1;ox++){
+          const cx=gx+ox,cy=gy+oy;
+          const px=(cx+.24+hash2(cx,cy,seed)*.52)*szX;
+          const py=(cy+.24+hash2(cx,cy,seed+1)*.52)*szY+59;
+          const dist=((wx-px)/szX)**2+((wy-py)/szY)**2;
+          if(dist<closest){closest=dist;col=Math.floor(hash2(cx,cy,seed+2)*COLORS.length);}
+        }
+        // Grietas de color secundaria: aumentan gradualmente la mezcla.
+        if(stage>1 && smoothNoise(x+62,y-21,7,seed+9)<.12+Math.min(.14,stage*.026))
+          col=(col+1+Math.floor(hash2(Math.floor(x/7),Math.floor(y/7),seed+11)*3))%COLORS.length;
+        const n=idx(x,y);grid[n]=col+1;starter[n]=1;initialCount++;
+      }
+    }
+    starterRemaining=initialCount;
+  }
+  function surfaceColor(){
+    const counts=new Int32Array(5);
+    for(let x=0;x<COLS;x+=3){for(let y=0;y<ROWS;y++){const v=grid[idx(x,y)];if(v){counts[v-1]++;break;}}}
+    let best=0;for(let c=1;c<5;c++)if(counts[c]>counts[best])best=c;
+    return best;
+  }
+  function sandStep(){const leftFirst=Math.random()>.5;let changed=0;for(let y=ROWS-2;y>=0;y--){let reverse=(y%2===0)===leftFirst;for(let q=0;q<COLS;q++){const x=reverse?COLS-1-q:q;const i=idx(x,y),v=grid[i];if(!v)continue;const below=i+COLS;
+      if(!grid[below]){grid[below]=v;starter[below]=starter[i];playerSand[below]=playerSand[i];grid[i]=0;starter[i]=0;playerSand[i]=0;changed++;continue;}
+      const l=x>0&&!grid[below-1]&&!grid[i-1],r=x<COLS-1&&!grid[below+1]&&!grid[i+1];
+      // Granos fluyen diagonalmente y se apilan de forma natural.
+      if(l||r){let nx=x+(l&&r?(rnd()<.5?-1:1):l?-1:1);const to=idx(nx,y+1);grid[to]=v;starter[to]=starter[i];playerSand[to]=playerSand[i];grid[i]=0;starter[i]=0;playerSand[i]=0;changed++;}
+    }}return changed;}
+  const bfsQueue=new Int32Array(grid.length),groupIndices=[];
+  function checkConnections(){if(piecesPlaced===0||zoneCompleted)return;visited.fill(0);const connected=[];
+    const minimum=minGroupForStage(),minimumSpan=minWidthForStage();
+    for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){
+      const root=idx(x,y);if(!grid[root]||visited[root])continue;
+      let head=0,tail=1,minX=x,maxX=x,color=grid[root],touchedByPlayer=0;
+      bfsQueue[0]=root;visited[root]=1;
+      while(head<tail){const pos=bfsQueue[head++],px=pos%COLS,py=(pos/COLS)|0;
+        touchedByPlayer+=playerSand[pos];if(px<minX)minX=px;if(px>maxX)maxX=px;
+        const neigh=[px>0?pos-1:-1,px<COLS-1?pos+1:-1,py>0?pos-COLS:-1,py<ROWS-1?pos+COLS:-1];
+        for(let k=0;k<4;k++){const n=neigh[k];if(n<0||visited[n]||grid[n]!==color)continue;visited[n]=1;bfsQueue[tail++]=n;}
+      }
+      // Para limpiar: gran grupo, alcance horizontal y conexión creada por el jugador.
+      if(touchedByPlayer>=10 && tail>=minimum && maxX-minX+1>=minimumSpan){
+        for(let i=0;i<tail;i++)connected.push(bfsQueue[i]);
+      }
+    }
+  if(connected.length){chain++;lastClearPiece=piecesPlaced;const bonus=Math.round(connected.length*(2.2+chain*.6)*level);score+=bonus;screenShake=.17;clearCooldown=.5;
+    const picked=connected.filter((_,i)=>i%Math.max(1,Math.floor(connected.length/55))===0);
+    for(const n of picked){const x=(n%COLS)*S+S/2,y=((n/COLS)|0)*S+S/2;particles.push({x,y,vx:(rnd()-.5)*175,vy:-25-rnd()*160,life:.55+rnd()*.45,color:COLORS[grid[n]-1].light,sz:2+rnd()*3});}
+    if(particles.length>650)particles.splice(0,particles.length-650);
+    const ay=Math.min(...picked.map(n=>((n/COLS)|0)*S));floating.push({text:`+${bonus.toLocaleString('es-AR')}  ·  COMBO x${chain}`,x:CW/2,y:Math.max(60,ay-15),life:1.2,color:'#c9f982'});
+    for(const n of connected){if(starter[n]){starterRemaining--;starter[n]=0;}grid[n]=0;playerSand[n]=0;}
+    if(score>best){best=score;try{localStorage.setItem(STORE,String(best));}catch(e){}}
+    beep(430+chain*80,.13,'triangle',.085);setTimeout(()=>beep(620+chain*80,.15,'sine',.065),85);
+    updateUI();
+    if(initialCount>0&&(initialCount-starterRemaining)/initialCount>=CLEAR_GOAL){completeZone();}
+  }
+  }
+  function completeZone(){
+    if(zoneCompleted||gameOver)return;
+    zoneCompleted=true;paused=true;screenShake=.23;
+    beep(760,.15,'sine',.07);setTimeout(()=>beep(1040,.22,'sine',.08),145);
+    showOverlay('✦','¡Nivel completado!',`Liberaste el 80% de la arena inicial. ¡Avanzás al nivel ${stage+1}, con una mezcla más difícil!`,score.toLocaleString('es-AR'),'SIGUIENTE NIVEL',()=>{
+      stage++;startZone();
+    });
+  }
+  function updateUI(){const fmt=n=>Math.floor(n).toLocaleString('es-AR');$('score').textContent=fmt(score);$('mobileScore').textContent=fmt(score);$('best').textContent=fmt(best);$('mobileBest').textContent=fmt(best);$('level').textContent=String(level).padStart(2,'0');$('mobileLevel').textContent=level;$('chain').textContent=`x${Math.max(1,chain)}`;$('comboBar').style.width=Math.min(100,chain*22)+'%';
+    const pct=initialCount?Math.min(100,Math.round(100*(initialCount-starterRemaining)/initialCount)):0;
+    $('cleanPercent').textContent=pct+'% / 80%';$('cleanMeter').style.width=Math.min(100,pct/CLEAR_GOAL)+'%';
+    $('cleanSub').textContent=`${starterRemaining.toLocaleString('es-AR')} por despejar · Grupo de ${minGroupForStage()}+ granitos · Extensión ${minWidthForStage()}/80`;
+    $('zoneNum').textContent=stage;
+  }
+  function beep(freq,duration,type,volume){if(!audioEnabled)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=type||'sine';osc.frequency.value=freq;gain.gain.setValueAtTime(volume||.03,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+duration);}catch(e){}}
+  function playLandSound(){beep(170,.07,'triangle',.024);}
+  function endGame(){gameOver=true;paused=true;const finalScore=score;showOverlay('🌋','¡Se llenó el tablero!','No llegaste a despejar el nivel antes de alcanzar el límite. ¡Intentá de nuevo!',finalScore.toLocaleString('es-AR'),'VOLVER A JUGAR',()=>startGame());beep(140,.25,'sawtooth',.035)}
+  function showOverlay(emoji,title,body,value,label,handler){$('overlayEmoji').textContent=emoji;$('overlayTitle').textContent=title;$('overlayText').textContent=body;$('overlayValue').hidden=(value===null);$('overlayValue').textContent=value??'';$('overlayAction').textContent=label;$('overlayAction').onclick=handler;$('overlay').classList.add('visible');}
+  function hideOverlay(){$('overlay').classList.remove('visible')}
+  function pauseToggle(){if(gameOver||zoneCompleted||showingHelp)return;paused=!paused;if(paused){showOverlay('⏸','Juego en pausa','Tomate tu tiempo. Tus puntos quedan guardados durante esta partida.',null,'CONTINUAR',()=>pauseToggle())}else hideOverlay();$('pauseBtn').textContent=paused?'▶':'Ⅱ'}
+  function help(){if(gameOver)return;const wasPaused=paused;paused=true;showingHelp=true;showOverlay('🎨','¿Cómo se juega?','Cada nivel comienza con arena más mezclada. Mové la pieza con ◀ ▶ o arrastrando, girá con ↻ y soltá con ↓. Para eliminar arena necesitás conectar al menos 10 granitos propios a un grupo del mismo color, que tenga tamaño suficiente y se extienda horizontalmente. Las exigencias suben en cada nivel. Limpiá el 80% de la arena inicial sin superar el límite.',null,'¡ENTENDIDO!',()=>{showingHelp=false;paused=wasPaused;if(!paused)hideOverlay();else showOverlay('⏸','Juego en pausa','Tu partida está pausada.',null,'CONTINUAR',()=>pauseToggle());});}
+  function startZone(){
+    level=stage;seedHalfBoard();particles=[];floating=[];piece=null;nextPiece=null;
+    chain=0;level=stage;piecesPlaced=0;gravityAcc=0;fallAcc=0;clock=0;
+    clearCooldown=0;connectionTicker=0;lastClearPiece=0;screenShake=0;
+    gameOver=false;zoneCompleted=false;paused=false;showingHelp=false;
+    spawn();updateUI();hideOverlay();$('pauseBtn').textContent='Ⅱ';
+  }
+  function startGame(){score=0;stage=1;startZone();}
+  function drawShapeInContext(g,p,cell,xx,yy,alpha=1){if(!p)return;g.save();g.globalAlpha=alpha;let c=COLORS[p.color];for(const [dx,dy] of p.cells){let x=xx+dx*cell,y=yy+dy*cell;g.fillStyle=c.deep;g.fillRect(x+.7,y+.7,cell-1.4,cell-1.4);g.fillStyle=c.c;g.fillRect(x+1,y+1,cell-3,cell-3);g.fillStyle=c.light;g.globalAlpha=alpha*.58;g.fillRect(x+2,y+2,cell-4,Math.max(2,cell*.20));g.globalAlpha=alpha;for(let i=0;i<8;i++){let j=(i*37+dx*5+dy*3)%20,k=(i*17+dx*7+dy*2)%20;g.fillStyle=i%3?'#ffffff17':'#0e10252a';g.fillRect(x+j*cell/20,y+k*cell/20,2*cell/20,2*cell/20);}}g.restore();}
+  function renderNext(){nx.clearRect(0,0,144,90);if(!nextPiece)return;let {w,h}=sizeOf(nextPiece),s=21;drawShapeInContext(nx,nextPiece,s,(144-w*s)/2,(90-h*s)/2);}
+  function drawScene(){const shakeX=screenShake>0?(rnd()-.5)*screenShake*19:0,shakeY=screenShake>0?(rnd()-.5)*screenShake*14:0;ctx.save();ctx.translate(shakeX,shakeY);
+    ctx.fillStyle='#101426';ctx.fillRect(-10,-10,340,500);
+    const background=ctx.createLinearGradient(0,0,0,CH);background.addColorStop(0,'#171b33');background.addColorStop(1,'#0c1425');ctx.fillStyle=background;ctx.fillRect(0,0,CW,CH);
+    ctx.strokeStyle='#ffffff08';ctx.lineWidth=1;for(let x=20;x<CW;x+=20){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,CH);ctx.stroke();}for(let y=20;y<CH;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(CW,y);ctx.stroke();}
+    // Peligro si se apila demasiado alto
+    ctx.setLineDash([5,6]);ctx.strokeStyle='#ff749f4e';ctx.beginPath();ctx.moveTo(0,39);ctx.lineTo(CW,39);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#f985ab42';ctx.font='bold 8px system-ui';ctx.fillText('LÍMITE',7,34);
+    // Render arena. Bordes claros y variantes de color dan sensación de partículas.
+    for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){
+      const v=grid[idx(x,y)];if(!v)continue;let c=COLORS[v-1];let hash=((x*73+y*139+x*y*7)>>>0)%9;
+      ctx.fillStyle=(hash===1||hash===7)?c.light:(hash===2||hash===4)?c.deep:c.c;
+      ctx.fillRect(x*S,y*S,S,S);
+      if(hash===6){ctx.fillStyle='#ffffff2c';ctx.fillRect(x*S+1,y*S+1,1,1);}
+    }
+    if(piece){const {w,h}=sizeOf(piece);let ghost={...piece};while(!collision(ghost,ghost.x,ghost.y+.5)&&ghost.y<24)ghost.y+=.5;
+      if(ghost.y>piece.y+1){drawShapeInContext(ctx,ghost,BLOCK,ghost.x*BLOCK,ghost.y*BLOCK,.16)}
+      drawShapeInContext(ctx,piece,BLOCK,piece.x*BLOCK,piece.y*BLOCK,.96);
+      const top=(piece.x+w/2)*BLOCK;ctx.fillStyle='#ffffff16';ctx.fillRect(top-1,0,2,CH);
+    }
+    for(const p of particles){ctx.globalAlpha=Math.max(0,Math.min(1,p.life/.5));ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,p.sz,p.sz);}ctx.globalAlpha=1;
+    for(const t of floating){ctx.globalAlpha=Math.min(1,t.life*1.7);ctx.font='950 13px system-ui';ctx.textAlign='center';ctx.shadowColor='#000';ctx.shadowBlur=10;ctx.fillStyle=t.color;ctx.fillText(t.text,t.x,t.y);ctx.shadowBlur=0;ctx.textAlign='left'}ctx.globalAlpha=1;
+    ctx.restore();}
+  function update(dt){clock+=dt;if(paused||gameOver)return;
+    gravityAcc+=dt;fallAcc+=dt;
+    // 30 actualizaciones de partículas por segundo en vez de cada frame.
+    let loops=0;while(gravityAcc>=.030&&loops++<3){gravityAcc-=.030;sandStep();}
+    if(piece){const interval=Math.max(.030,.070-(stage-1)*.003-Math.floor(piecesPlaced/12)*.002);if(fallAcc>interval){
+        let dy=.25; if(!collision(piece,piece.x,piece.y+dy))piece.y+=dy;else settlePiece();fallAcc=0;
+      }}
+    if(clearCooldown>0)clearCooldown=Math.max(0,clearCooldown-dt);connectionTicker+=dt;if(connectionTicker>.35&&clearCooldown===0){connectionTicker=0;checkConnections();}
+    if(screenShake>0)screenShake=Math.max(0,screenShake-dt);
+    for(let i=particles.length-1;i>=0;i--){let p=particles[i];p.life-=dt;p.vy+=390*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.life<=0)particles.splice(i,1);}
+    for(let i=floating.length-1;i>=0;i--){let t=floating[i];t.life-=dt;t.y-=27*dt;if(t.life<=0)floating.splice(i,1);}
+    // Top danger: bloqueo al nacer la siguiente pieza o arena demasiado alta.
+    if(piecesPlaced>4&&piecesPlaced%3===0&&clock%1<dt){let high=0;for(let y=0;y<6;y++)for(let x=0;x<COLS;x++)if(grid[idx(x,y)])high++;if(high>16)endGame();}
+  }
+  function frame(ms){if(!last)last=ms;let dt=Math.min(.06,(ms-last)/1000);last=ms;update(dt);drawScene();requestAnimationFrame(frame)}
+  function pointerX(e){const r=canvas.getBoundingClientRect();return((e.clientX-r.left)/r.width)*CW;}
+  let pointerDown=false,dragged=false,pointerStartX=0,pointerStartY=0;
+  canvas.addEventListener('pointerdown',e=>{if(!piece||paused)return;pointerDown=true;dragged=false;pointerStartX=e.clientX;pointerStartY=e.clientY;canvas.setPointerCapture?.(e.pointerId);aimPiece(pointerX(e));});
+  function aimPiece(x){if(!piece||paused||gameOver)return;const w=sizeOf(piece).w;const nx=Math.max(0,Math.min(16-w,Math.round(x/BLOCK-w/2)));if(!collision(piece,nx,piece.y))piece.x=nx;}
+  canvas.addEventListener('pointermove',e=>{if(!piece||paused)return;if(pointerDown||e.pointerType==='mouse'){if(pointerDown&&Math.hypot(e.clientX-pointerStartX,e.clientY-pointerStartY)>6)dragged=true;aimPiece(pointerX(e));}});
+  canvas.addEventListener('pointerup',e=>{if(!pointerDown)return;pointerDown=false;if(!paused)dropPiece();});
+  canvas.addEventListener('pointercancel',()=>{pointerDown=false});
+  $('leftBtn').addEventListener('click',()=>movePiece(-1));$('rightBtn').addEventListener('click',()=>movePiece(1));$('rotateBtn').addEventListener('click',rotatePiece);$('dropBtn').addEventListener('click',dropPiece);
+  $('soundBtn').addEventListener('click',()=>{audioEnabled=!audioEnabled;$('soundBtn').textContent=audioEnabled?'♫':'♪';$('soundBtn').title=audioEnabled?'Silenciar':'Activar sonido';if(audioEnabled)beep(620,.09,'sine',.05);});
+  $('pauseBtn').addEventListener('click',pauseToggle);$('helpBtn').addEventListener('click',help);
+  document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowDown','ArrowUp',' ','a','d','w','r','p'].includes(e.key))e.preventDefault();if(e.repeat&&[' ','ArrowUp','r'].includes(e.key))return;
+    if(e.key==='ArrowLeft'||e.key==='a')movePiece(-1);else if(e.key==='ArrowRight'||e.key==='d')movePiece(1);else if(e.key==='ArrowUp'||e.key==='w'||e.key==='r')rotatePiece();else if(e.key===' '||e.key==='ArrowDown')dropPiece();else if(e.key==='p')pauseToggle();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&!paused&&!gameOver)pauseToggle();});
+  // In-app testing hook (read-only counters) for smoke tests.
+  window.__sandManiaDebug=()=>({score,level,stage,best,piecesPlaced,filled:grid.reduce((a,b)=>a+(b>0),0),initialCount,starterRemaining,percent:initialCount?Math.round(100*(initialCount-starterRemaining)/initialCount):0,paused,gameOver,zoneCompleted,activePiece:!!piece,minGroup:minGroupForStage(),minWidth:minWidthForStage(),mix:mixForStage()});
+  startGame();requestAnimationFrame(frame);
+  if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
+})();
+</script>
+</body>
+</html>
