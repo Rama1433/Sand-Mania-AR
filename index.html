@@ -64,14 +64,56 @@
       .footer{margin-top:9px}.help-mini{font-size:9px}
     }
     @media(max-height:675px) and (max-width:770px){.app{padding-top:5px}.topbar{margin-bottom:4px}.title-block{margin-bottom:5px}h1{font-size:29px}.subtitle{display:none}.mobile-stat{padding:5px}.board-frame{width:min(100%,400px,calc((100dvh - 150px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * .6666667))}.footer{display:none}}
+    /* V3.0.2: en celulares, usamos el alto libre para centrar el tablero.
+       Conservamos la proporción lógica 320 × 480 y los bloques cuadrados. */
+    @media (min-height:676px) and (max-width:770px) {
+      .app {
+        width:min(calc(100% - 12px),530px);
+        min-height:100dvh;
+        display:flex;
+        flex-direction:column;
+      }
+      .layout {
+        width:100%;
+        flex:1 0 auto;
+        grid-template-columns:minmax(0,1fr);
+        align-items:center;
+      }
+      .play-area {width:100%;justify-content:center;}
+      .board-frame {
+        width:min(100%,414px,calc((100dvh - 140px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * .6666667));
+        min-width:0;
+      }
+    }
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+    /* Sand Mania V3.0.3: controles fuera del tablero, en el encabezado. */
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0;width:100%;}
+    .topbar .brand{flex:0 1 auto;min-width:0;gap:7px;white-space:nowrap;}
+    .topbar .brand-symbol{flex:0 0 32px;}
+    .topbar .right-icons{position:static;inset:auto;z-index:auto;display:flex;flex:0 0 auto;align-items:center;gap:6px;margin:0;}
+    .topbar .icon-btn{width:36px;height:36px;padding:6px;flex:0 0 auto;font-size:16px;}
+    .topbar .rotate-btn{font-size:21px;}
+    @media(max-width:770px){
+      .topbar{gap:5px;}
+      .topbar .brand{font-size:10px;letter-spacing:1.3px;gap:6px;}
+      .topbar .brand-version{display:none;}
+      .topbar .right-icons{gap:5px;}
+      .topbar .icon-btn{width:33px;height:33px;padding:5px;font-size:14px;}
+      .topbar .rotate-btn{font-size:19px;}
+    }
+    @media(max-width:345px){
+      .topbar .brand{font-size:9px;letter-spacing:.8px;}
+      .topbar .right-icons{gap:3px;}
+      .topbar .icon-btn{width:30px;height:30px;}
+    }
   </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
-    <div class="brand"><div class="brand-symbol">A<span style="color:#ff86a8">.</span></div> ARCADE-AR <span style="color:#5c6487;margin-left:3px">/ 02 · V3</span></div>
-    
+    <div class="brand"><div class="brand-symbol">A<span style="color:#ff86a8">.</span></div> <span class="brand-name">ARCADE-AR</span> <span class="brand-version" style="color:#5c6487;margin-left:3px">/ 02 · V3</span></div>
+    <div class="right-icons"><button class="icon-btn rotate-btn" id="rotateBtn" title="Girar pieza" aria-label="Girar pieza">↻</button><button class="icon-btn" id="soundBtn" title="Activar o desactivar sonido" aria-label="Activar o desactivar sonido">♪</button><button class="icon-btn" id="pauseBtn" title="Pausar" aria-label="Pausar">Ⅱ</button><button class="icon-btn" id="helpBtn" title="Instrucciones" aria-label="Instrucciones">?</button></div>
   </header>
   <div class="title-block"><h1>SAND <span>MANIA</span></h1></div>
   <div class="mobile-row" aria-label="Estadísticas de partida">
@@ -90,7 +132,6 @@
       <div class="board-frame" id="boardFrame">
         <canvas id="game" width="320" height="480" aria-label="Tablero de Sand Mania. Arrastrá para apuntar y soltá el dedo para dejar caer las piezas."></canvas>
         <div class="canvas-top-tag">ZONA DE CAÍDA</div><div class="edge left"></div><div class="edge right"></div>
-        <div class="right-icons"><button class="icon-btn rotate-btn" id="rotateBtn" title="Girar pieza" aria-label="Girar pieza">↻</button><button class="icon-btn" id="soundBtn" title="Activar o desactivar sonido" aria-label="Activar o desactivar sonido">♪</button><button class="icon-btn" id="pauseBtn" title="Pausar" aria-label="Pausar">Ⅱ</button><button class="icon-btn" id="helpBtn" title="Instrucciones" aria-label="Instrucciones">?</button></div>
         <div class="overlay" id="overlay">
           <div class="overlay-emoji" id="overlayEmoji">✨</div><h2 id="overlayTitle">Sand Mania</h2><p id="overlayText">¡Conectá los colores!</p>
           <div class="highlight" id="overlayValue" hidden></div>
