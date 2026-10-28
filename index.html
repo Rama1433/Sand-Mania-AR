@@ -38,7 +38,7 @@
     .keycaps{display:flex;gap:7px;align-items:center;margin:10px 0 0}.keycaps kbd{border:1px solid #464c70;border-bottom-width:3px;background:#20243e;padding:5px 9px;border-radius:7px;font-size:11px;color:#e6e8fb;font-family:inherit;font-weight:850}
     .tips{color:#a5abc8;font-size:12px;line-height:1.7;margin:10px 0 0}.tips strong{color:#e8edff}
     .play-area{display:flex;flex-direction:column;align-items:center;gap:11px;min-width:0}
-    .board-frame{position:relative;width:min(100%,414px,calc((100dvh - 245px) * .6666667));max-width:414px;aspect-ratio:2/3;border:2px solid #454c72;border-radius:17px;overflow:hidden;background:#0e1224;box-shadow:0 0 0 5px #c5cfff08,0 20px 70px #0009,0 0 70px #6b4bc321;touch-action:none;user-select:none;-webkit-user-select:none}
+    .board-frame{position:relative;width:min(100%,414px,calc((100dvh - 160px) * .6666667));max-width:414px;aspect-ratio:2/3;border:2px solid #454c72;border-radius:17px;overflow:hidden;background:#0e1224;box-shadow:0 0 0 5px #c5cfff08,0 20px 70px #0009,0 0 70px #6b4bc321;touch-action:none;user-select:none;-webkit-user-select:none}
     #game{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
     .canvas-top-tag{position:absolute;top:11px;left:13px;pointer-events:none;z-index:2;font-size:9px;font-weight:950;letter-spacing:1.4px;color:#a6b5d1bb}
     .edge{position:absolute;top:0;bottom:0;width:3px;pointer-events:none;z-index:2;opacity:.7}.edge.left{left:0;background:linear-gradient(180deg,transparent 5%,#f9df7077 55%,#f9df70cc)}.edge.right{right:0;background:linear-gradient(180deg,transparent 5%,#f9df7077 55%,#f9df70cc)}
@@ -46,13 +46,6 @@
     .overlay-emoji{font-size:43px;margin-bottom:10px;filter:drop-shadow(0 6px 12px #0006)}.overlay h2{font-size:28px;margin:0 0 6px;letter-spacing:-1px}.overlay p{font-size:13px;color:#b4bed5;line-height:1.55;margin:0 0 17px;max-width:250px}
     .overlay .highlight{font-weight:950;font-size:33px;color:var(--lime);margin:5px 0 18px}
     .action{border:0;border-radius:13px;background:linear-gradient(120deg,#c9fa86,#9ae68e);color:#15211b;font-size:13px;font-weight:950;padding:12px 20px;box-shadow:0 8px 30px #b5ef7030}.action:active{transform:translateY(1px)}
-    .controls{display:flex;gap:9px;justify-content:center;width:100%;max-width:414px}.ctl{height:47px;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #414765;background:#1e2239;color:#e8eafe;border-radius:13px;touch-action:manipulation;flex:1;font-size:16px;font-weight:850;box-shadow:0 4px 10px #0002}.ctl:active{background:#303651;transform:translateY(1px)}.ctl.drop{background:var(--lime);color:#142219;border-color:#d4ff9d;flex:1.75;font-size:13px;letter-spacing:.15px}.ctl.drop:active{background:#9ad26e}
-    .challenge{width:min(100%,414px);border:1px solid #3d486b;background:linear-gradient(135deg,#242943,#15192e);padding:10px 13px 9px;border-radius:14px;display:flex;flex-direction:column;gap:7px;box-shadow:0 7px 22px #0002}
-    .challenge-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;font-weight:850}
-    .challenge-head strong{color:var(--lime);font-size:13px;font-variant-numeric:tabular-nums}
-    .challenge-track{height:8px;background:#0d1121;border:1px solid #ffffff12;border-radius:50px;overflow:hidden}
-    .challenge-track>i{display:block;background:linear-gradient(90deg,#ff769b,#ffb66d,#b4f37c);width:0%;height:100%;transition:width .26s}
-    .challenge-sub{color:#9ea8c7;font-size:10px;font-weight:650}
     .help-mini{font-size:10px;color:#8991af;text-align:center;line-height:1.4}
     .next-box{text-align:center;background:#0d1021;border:1px dashed #3a4364;border-radius:15px;margin-top:10px;padding:12px 4px 8px}
     #next{height:90px;width:144px;max-width:100%;display:block;margin:auto}
@@ -60,16 +53,17 @@
     .explain{border:1px solid #2a3850;background:linear-gradient(155deg,#141d2a,#12192b);padding:15px;border-radius:17px}
     .explain-title{color:var(--lime);font-weight:900;font-size:12px}.explain p{font-size:12px;color:#aab2c8;line-height:1.55;margin:8px 0 0}
     .right-icons{display:flex;gap:8px;justify-content:flex-end;margin-bottom:3px}.icon-btn{border:1px solid #343955;background:#191e33;border-radius:10px;padding:9px;width:38px;height:38px;display:grid;place-items:center;color:#d5dcf3}.icon-btn:hover{background:#292e48}
+    .rotate-btn{color:var(--lime);border-color:#6a865e;background:#1b2a34;font-size:21px;line-height:1}
     .mobile-row{display:none}
     .footer{color:#5f6b8a;text-align:center;margin-top:18px;font-size:10px;letter-spacing:.9px;font-weight:750}
     @media(max-width:770px){
-      .app{width:min(100% - 22px,530px);padding:10px 0 16px}.topbar{margin-bottom:6px}.title-block{margin-bottom:9px}.subtitle{font-size:11px;margin-top:4px}
+      .app{width:min(100% - 22px,530px);padding:max(10px,env(safe-area-inset-top)) 0 max(10px,env(safe-area-inset-bottom))}.topbar{margin-bottom:6px}.title-block{margin-bottom:9px}.subtitle{font-size:11px;margin-top:4px}
       .layout{grid-template-columns:1fr;gap:8px}.sidebar{display:none}.mobile-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:2px}.mobile-stat{background:#1a1e33;border:1px solid #292e4b;border-radius:11px;text-align:center;padding:8px 4px}.mobile-stat .eyebrow{font-size:9px;letter-spacing:.8px}.mobile-stat .number{font-size:19px;margin-top:2px}.play-area{gap:8px}
-      .board-frame{width:min(100%,414px,calc((100dvh - 299px) * .6666667));min-width:185px;border-radius:14px}
-      .controls{max-width:min(100%,414px)}.ctl{height:43px}.right-icons{display:flex;position:absolute;right:12px;top:14px;z-index:3;margin:0}.icon-btn{width:31px;height:31px;padding:6px;font-size:12px}.topbar{max-width:100%}
+      .board-frame{width:min(100%,414px,calc((100dvh - 178px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * .6666667));min-width:185px;border-radius:14px}
+      .right-icons{display:flex;position:absolute;right:9px;top:11px;z-index:3;margin:0;gap:6px}.icon-btn{width:31px;height:31px;padding:5px;font-size:14px}.topbar{max-width:100%}
       .footer{margin-top:9px}.help-mini{font-size:9px}
     }
-    @media(max-height:675px) and (max-width:770px){.app{padding-top:5px}.topbar{margin-bottom:4px}.title-block{margin-bottom:5px}h1{font-size:29px}.subtitle{display:none}.mobile-stat{padding:5px}.board-frame{width:min(100%,400px,calc((100dvh - 236px) * .6666667))}.controls .ctl{height:38px}.footer{display:none}}
+    @media(max-height:675px) and (max-width:770px){.app{padding-top:5px}.topbar{margin-bottom:4px}.title-block{margin-bottom:5px}h1{font-size:29px}.subtitle{display:none}.mobile-stat{padding:5px}.board-frame{width:min(100%,400px,calc((100dvh - 150px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * .6666667))}.footer{display:none}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
@@ -93,24 +87,16 @@
       <div class="explain"><div class="explain-title">✦ ¿Cómo se gana?</div><p>Empezás con <strong>medio tablero mezclado</strong>. Armá grupos grandes de arena del mismo color: las conexiones pequeñas no se borran. Despejá el <strong>80% de la arena inicial</strong> y pasá a un nivel más difícil.</p></div>
     </aside>
     <div class="play-area">
-      <div class="challenge" aria-label="Objetivo de limpieza">
-        <div class="challenge-head"><span>DESPEJÁ EL NIVEL <span id="zoneNum">1</span></span><strong id="cleanPercent">0% / 80%</strong></div>
-        <div class="challenge-track"><i id="cleanMeter"></i></div>
-        <div class="challenge-sub" id="cleanSub">Eliminá la arena de colores que ya ocupa el tablero.</div>
-      </div>
       <div class="board-frame" id="boardFrame">
-        <canvas id="game" width="320" height="480" aria-label="Tablero de Sand Mania. Tocá para soltar las piezas."></canvas>
+        <canvas id="game" width="320" height="480" aria-label="Tablero de Sand Mania. Arrastrá para apuntar y soltá el dedo para dejar caer las piezas."></canvas>
         <div class="canvas-top-tag">ZONA DE CAÍDA</div><div class="edge left"></div><div class="edge right"></div>
-        <div class="right-icons"><button class="icon-btn" id="soundBtn" title="Activar o desactivar sonido" aria-label="Activar o desactivar sonido">♪</button><button class="icon-btn" id="pauseBtn" title="Pausar" aria-label="Pausar">Ⅱ</button><button class="icon-btn" id="helpBtn" title="Instrucciones" aria-label="Instrucciones">?</button></div>
+        <div class="right-icons"><button class="icon-btn rotate-btn" id="rotateBtn" title="Girar pieza" aria-label="Girar pieza">↻</button><button class="icon-btn" id="soundBtn" title="Activar o desactivar sonido" aria-label="Activar o desactivar sonido">♪</button><button class="icon-btn" id="pauseBtn" title="Pausar" aria-label="Pausar">Ⅱ</button><button class="icon-btn" id="helpBtn" title="Instrucciones" aria-label="Instrucciones">?</button></div>
         <div class="overlay" id="overlay">
           <div class="overlay-emoji" id="overlayEmoji">✨</div><h2 id="overlayTitle">Sand Mania</h2><p id="overlayText">¡Conectá los colores!</p>
           <div class="highlight" id="overlayValue" hidden></div>
           <button class="action" id="overlayAction">¡Seguir jugando!</button>
         </div>
       </div>
-      <div class="controls" aria-label="Controles de juego"><button id="leftBtn" class="ctl" aria-label="Mover izquierda">◀</button><button id="rotateBtn" class="ctl" aria-label="Girar pieza">↻</button><button id="dropBtn" class="ctl drop">↓ SOLTAR</button><button id="rightBtn" class="ctl" aria-label="Mover derecha">▶</button>
-      </div>
-     
     </div>
     <aside class="sidebar">
       <div class="panel" style="position:relative"><div class="eyebrow">Siguiente pieza</div><div class="next-box"><canvas id="next" width="144" height="90"></canvas></div><div class="rainbow-dots"><i style="background:#fd7799"></i><i style="background:#5bdddf"></i><i style="background:#f4bc67"></i><i style="background:#a991ff"></i><i style="background:#bdf27f"></i></div></div>
@@ -254,10 +240,7 @@
     });
   }
   function updateUI(){const fmt=n=>Math.floor(n).toLocaleString('es-AR');$('score').textContent=fmt(score);$('mobileScore').textContent=fmt(score);$('best').textContent=fmt(best);$('mobileBest').textContent=fmt(best);$('level').textContent=String(level).padStart(2,'0');$('mobileLevel').textContent=level;$('chain').textContent=`x${Math.max(1,chain)}`;$('comboBar').style.width=Math.min(100,chain*22)+'%';
-    const pct=initialCount?Math.min(100,Math.round(100*(initialCount-starterRemaining)/initialCount)):0;
-    $('cleanPercent').textContent=pct+'% / 80%';$('cleanMeter').style.width=Math.min(100,pct/CLEAR_GOAL)+'%';
-    $('cleanSub').textContent=`${starterRemaining.toLocaleString('es-AR')} por despejar · Grupo de ${minGroupForStage()}+ granitos · Extensión ${minWidthForStage()}/80`;
-    $('zoneNum').textContent=stage;
+
   }
   function beep(freq,duration,type,volume){if(!audioEnabled)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=type||'sine';osc.frequency.value=freq;gain.gain.setValueAtTime(volume||.03,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+duration);}catch(e){}}
   function playLandSound(){beep(170,.07,'triangle',.024);}
@@ -265,7 +248,7 @@
   function showOverlay(emoji,title,body,value,label,handler){$('overlayEmoji').textContent=emoji;$('overlayTitle').textContent=title;$('overlayText').textContent=body;$('overlayValue').hidden=(value===null);$('overlayValue').textContent=value??'';$('overlayAction').textContent=label;$('overlayAction').onclick=handler;$('overlay').classList.add('visible');}
   function hideOverlay(){$('overlay').classList.remove('visible')}
   function pauseToggle(){if(gameOver||zoneCompleted||showingHelp)return;paused=!paused;if(paused){showOverlay('⏸','Juego en pausa','Tomate tu tiempo. Tus puntos quedan guardados durante esta partida.',null,'CONTINUAR',()=>pauseToggle())}else hideOverlay();$('pauseBtn').textContent=paused?'▶':'Ⅱ'}
-  function help(){if(gameOver)return;const wasPaused=paused;paused=true;showingHelp=true;showOverlay('🎨','¿Cómo se juega?','Cada nivel comienza con arena más mezclada. Mové la pieza con ◀ ▶ o arrastrando, girá con ↻ y soltá con ↓. Para eliminar arena necesitás conectar al menos 10 granitos propios a un grupo del mismo color, que tenga tamaño suficiente y se extienda horizontalmente. Las exigencias suben en cada nivel. Limpiá el 80% de la arena inicial sin superar el límite.',null,'¡ENTENDIDO!',()=>{showingHelp=false;paused=wasPaused;if(!paused)hideOverlay();else showOverlay('⏸','Juego en pausa','Tu partida está pausada.',null,'CONTINUAR',()=>pauseToggle());});}
+  function help(){if(gameOver)return;const wasPaused=paused;paused=true;showingHelp=true;showOverlay('🎨','¿Cómo se juega?','Cada nivel comienza con arena más mezclada. En celular, arrastrá la pieza y soltá el dedo para dejarla caer. Girala con ↻ arriba del tablero. En PC también podés usar las flechas y espacio. Para eliminar arena necesitás conectar al menos 10 granitos propios a un grupo del mismo color, que tenga tamaño suficiente y se extienda horizontalmente. Las exigencias suben en cada nivel. Limpiá el 80% de la arena inicial sin superar el límite.',null,'¡ENTENDIDO!',()=>{showingHelp=false;paused=wasPaused;if(!paused)hideOverlay();else showOverlay('⏸','Juego en pausa','Tu partida está pausada.',null,'CONTINUAR',()=>pauseToggle());});}
   function startZone(){
     level=stage;seedHalfBoard();particles=[];floating=[];piece=null;nextPiece=null;
     chain=0;level=stage;piecesPlaced=0;gravityAcc=0;fallAcc=0;clock=0;
@@ -320,7 +303,8 @@
   canvas.addEventListener('pointermove',e=>{if(!piece||paused)return;if(pointerDown||e.pointerType==='mouse'){if(pointerDown&&Math.hypot(e.clientX-pointerStartX,e.clientY-pointerStartY)>6)dragged=true;aimPiece(pointerX(e));}});
   canvas.addEventListener('pointerup',e=>{if(!pointerDown)return;pointerDown=false;if(!paused)dropPiece();});
   canvas.addEventListener('pointercancel',()=>{pointerDown=false});
-  $('leftBtn').addEventListener('click',()=>movePiece(-1));$('rightBtn').addEventListener('click',()=>movePiece(1));$('rotateBtn').addEventListener('click',rotatePiece);$('dropBtn').addEventListener('click',dropPiece);
+  // En celulares: arrastrá para apuntar y soltá el dedo para dejar caer; giro arriba a la derecha.
+  $('rotateBtn').addEventListener('click',rotatePiece);
   $('soundBtn').addEventListener('click',()=>{audioEnabled=!audioEnabled;$('soundBtn').textContent=audioEnabled?'♫':'♪';$('soundBtn').title=audioEnabled?'Silenciar':'Activar sonido';if(audioEnabled)beep(620,.09,'sine',.05);});
   $('pauseBtn').addEventListener('click',pauseToggle);$('helpBtn').addEventListener('click',help);
   document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowDown','ArrowUp',' ','a','d','w','r','p'].includes(e.key))e.preventDefault();if(e.repeat&&[' ','ArrowUp','r'].includes(e.key))return;
